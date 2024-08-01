@@ -2,7 +2,7 @@
 ### その1
 `git clone https://github.com/minminseo/tsubo-frontend.git`
 
-###　その2
+### その2
 `cd tsubo-frontend`
 
 ### その3
