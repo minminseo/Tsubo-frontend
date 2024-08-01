@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
+import axios from 'axios';
 
 interface Message {
     text: string;
@@ -11,9 +12,6 @@ const Chat = () => {
     const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // 返事のテスト用に変数宣言
-    const testResponse = "テスト用の返事";
-
     // messageが変わったらメッセージの終わりにスクロールさせる処理
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -22,16 +20,21 @@ const Chat = () => {
     /* 送信方法は2パターン（送信ボタンクリック or エンターキー）
     以下は送信ボタンをクリックした時 or エンターキー押したことにより関数handleKeyPressが実行され、
     この関数内でhandleSendが実行された時の処理。
-    inputが空でなければmessagesに新しいメッセージを追加して、
-    処理の最後に入力フォームを空('')にする*/
-    const handleSend = () => {
+    inputが空でなければmessagesに新しいメッセージを追加し、バックエンドにinputを送信して返事を受け取る。
+    */
+    const handleSend = async () => {
         if (input.trim()) { // trimで余計な空白を削除
-            setMessages(prev => [
-                ...prev, 
-                { text: input, isUser: true }, // isUserをtrueにすることでユーザーのメッセージとして表示
-                { text: testResponse, isUser: false } // isUserをfalseにすることで返事のメッセージとして表示
-            ]);
-            setInput('');
+            setMessages(prev => [...prev, { text: input, isUser: true }]); // isUserをtrueにすることでユーザーのメッセージとして表示
+            setInput(''); // メッセージを送信したら入力フォームを空にする
+
+            try {
+                const response = await axios.post('http://127.0.0.1:5000/process_message', { message: input });  // エンドポイントをprocess_messageに設定
+
+                setMessages(prev => [...prev, { text: response.data.response, isUser: false }]);  // バックエンドからの返事のisUserをfalseにすることで返事のメッセージとして表示
+            } catch (error) {
+                console.error('Error:', error);
+                setMessages(prev => [...prev, { text: 'エラー', isUser: false }]);
+            }
         }
     };
 
