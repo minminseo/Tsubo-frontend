@@ -28,7 +28,7 @@ const Chat = () => {
             setInput(''); // メッセージを送信したら入力フォームを空にする
 
             try {
-                const response = await axios.post('http://127.0.0.1:5000/process_message', { message: input });  // エンドポイントをprocess_messageに設定
+                const response = await axios.post('http://127.0.0.1:8080/process_message', { message: input });  // エンドポイントをprocess_messageに設定
 
                 setMessages(prev => [...prev, { text: response.data.response, isUser: false }]);  // バックエンドからの返事のisUserをfalseにすることで返事のメッセージとして表示
             } catch (error) {
