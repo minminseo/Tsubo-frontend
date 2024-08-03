@@ -1,17 +1,47 @@
-import React from 'react';
+import { useEffect } from 'react';
+import '../styles.css';
 
 interface Props {
     showResetModal: boolean;
     setShowResetModal: (value: boolean) => void;
-    handleReset: () => void;
+    setMessages: (value: []) => void;
+    setInput: (value: string) => void;
 }
 
-const ResetChat = ({ showResetModal, setShowResetModal, handleReset }: Props) => {
+const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput }: Props) => {
+
+    const handleReset = () => {
+        setMessages([]);
+        setInput('');
+        setShowResetModal(false);
+    };
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => { // キー入力され、それがEscキーなら、setShowResetModalをfalseにしてモーダルウィンドウを閉じる
+            if (e.key === 'Escape') {
+                setShowResetModal(false);
+            }
+        };
+        window.addEventListener('keydown', handleEsc); // キー入力された時にhandleEscを実行
+
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        }; // windowオブジェクトからkeydownイベントを削除し、handleEsc関数がこれ以上呼び出されないようにする。
+    }, [setShowResetModal]); // setShowResetModalが変更された時にuseEffectを実行
+
     return (
         <>
             <div
                 className={`modal`}
                 style={{ display: showResetModal ? 'block' : 'none' }} // もし、showResetModalがtrueならモーダルウィンドウを表示
+                data-bs-backdrop="true" // モーダルウィンドウの背景をクリックしたらモーダルウィンドウが閉じるようにする。
+                data-bs-keyboard="true" // キーボードのEscキーを押すとモーダルウィンドウが閉じるようにする。
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                        setShowResetModal(false);
+                    }
+                }} // モーダルウィンドウの背景をクリックしたらモーダルウィンドウが閉じるようにする。
+
             >
                 <div className="modal-dialog modal-dialog-centered modal-xl">
                     <div className="modal-content bg-success-subtle" style={{ borderRadius: '40px' }}>

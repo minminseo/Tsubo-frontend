@@ -3,3 +3,8 @@
     background-color: #bed9cd;
     border-color: #9bbbad;
 }
+
+.btn-cancel:hover {
+    background-color: #aac2b7;
+    border-color: #7c978b;
+}
