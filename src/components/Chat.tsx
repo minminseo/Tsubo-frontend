@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
+import '../styles.css';
+import ResetChat from './ResetChat';
 import axios from 'axios';
 
 interface Message {
@@ -11,6 +13,7 @@ const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [showResetModal, setShowResetModal] = useState(false);
 
     // messageが変わったらメッセージの終わりにスクロールさせる処理
     useEffect(() => {
@@ -46,7 +49,11 @@ const Chat = () => {
         }
     };
     
-
+    const handleReset = () => {
+        setMessages([]);
+        setInput('');
+        setShowResetModal(false);
+    };
 
     return (
         <> {/* d-flexで flexboxを使い、flex-columnで縦方向に要素を並べる。 */}
@@ -58,7 +65,7 @@ const Chat = () => {
                             {messages.map((message, index) => (
                                 /* 配列messageをループ処理して1列ずつ要素(メッセージ)を表示するためのコンテナを表示していく。
                                 message.isUserが
-                                trueなら右端(justify-content-end)に要素を表示して、
+                                trueなら右端(justjify-content-end)に要素を表示して、
                                 falseなら左端(justify-content-start)に要素表示することで、
                                 ユーザーのメッセージと返事のメッセージを区別できるようにする。
                                 */
@@ -94,6 +101,7 @@ const Chat = () => {
                             className="btn btn-outline-secondary btn-lg"
                             style={{ height: '100px', width: '100px', flexShrink: 0 }}
                             disabled={messages.length === 0} // 配列messagesが空の時はリセットボタンを無効化
+                            onClick={() => setShowResetModal(true)} // ここでshowResetModalをtrueにすることでResetChat.tsxでdisplayにblockを適用し、モーダルウィンドウを表示
                         >
                             <RefreshCw size={60} />
                         </button>
@@ -131,7 +139,12 @@ const Chat = () => {
                 {/* ここまで入力部分 */}
             </div>
 
-
+            {/* リセットボタンクリック時にひらくモーダルウィンドウ */}
+            <ResetChat // showResetModalがtrueの時に表示されるコンポーネント(モーダルウィンドウ)
+                showResetModal={showResetModal} // showResetModalの値をshowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を制御するための状態変数を渡している)
+                setShowResetModal={setShowResetModal} // 関数setShowResetModalをsetShowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を更新するための関数を渡している)
+                handleReset={handleReset} // 関数handleResetをhandleResetに渡してPropsとしてResetChat.tsxに渡す(チャットをリセットするための関数を渡している)
+            />
         </>
     );
 };
