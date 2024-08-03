@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, RefreshCw } from 'lucide-react';
-import '../styles.css';
 import ResetChat from './ResetChat';
 import axios from 'axios';
 
@@ -48,16 +47,11 @@ const Chat = () => {
             handleSend();
         }
     };
-    
-    const handleReset = () => {
-        setMessages([]);
-        setInput('');
-        setShowResetModal(false);
-    };
+
 
     return (
         <> {/* d-flexで flexboxを使い、flex-columnで縦方向に要素を並べる。 */}
-            <div className="d-flex flex-column h-100"> 
+            <div className="d-flex flex-column h-100">
                 {/* ここから会話の表示部分 */}
                 <div className="flex-grow-1 overflow-auto p-5 bg-success-subtle">
                     <div className="container" style={{ maxWidth: '1500px' }}>
@@ -118,7 +112,7 @@ const Chat = () => {
                                     paddingRight: '30px',
                                     width: '100%'
                                 }}
-                                value={input} 
+                                value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyPress={handleKeyPress} // ※onKeyPressを使わずにエンターキー送信できるように要修正
                                 placeholder="身体の症状を送信する"
@@ -143,7 +137,8 @@ const Chat = () => {
             <ResetChat // showResetModalがtrueの時に表示されるコンポーネント(モーダルウィンドウ)
                 showResetModal={showResetModal} // showResetModalの値をshowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を制御するための状態変数を渡している)
                 setShowResetModal={setShowResetModal} // 関数setShowResetModalをsetShowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を更新するための関数を渡している)
-                handleReset={handleReset} // 関数handleResetをhandleResetに渡してPropsとしてResetChat.tsxに渡す(チャットをリセットするための関数を渡している)
+                setMessages={setMessages}
+                setInput={setInput}
             />
         </>
     );
