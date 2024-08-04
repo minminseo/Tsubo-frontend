@@ -4,6 +4,7 @@ import SideBar from './components/SideBar';
 import Chat from './components/Chat';
 import Contact from './components/Contact';
 import Caution from './components/Caution';
+import { Menu } from 'lucide-react';
 
 
 const App = () => {
@@ -22,11 +23,11 @@ const App = () => {
         />
         {!isSidebarOpen && (
           <button 
-            className="btn btn-primary position-absolute"
-            style={{ fontSize: '2rem' }}
+            className="btn btn-primary position-absolute bg-success m-3"
+            style={{ border: 'none' }}
             onClick={toggleSidebar}
           >
-            開くボタン
+            <Menu />
           </button>
         )}
         <div className="flex-grow-1 d-flex flex-column">

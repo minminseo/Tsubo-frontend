@@ -72,7 +72,7 @@ const Chat = () => {
                                         className={`p-3 ${message.isUser ? 'bg-success text-white' : 'bg-white'}`}
                                         style={{
                                             maxWidth: '80%',
-                                            fontSize: '2.5rem',
+                                            fontSize: '1.4rem',
                                             borderRadius: '15px',
                                             wordBreak: 'break-word'
                                         }}
@@ -88,16 +88,16 @@ const Chat = () => {
                 {/* ここまで会話の表示部分 */}
 
                 {/* ここから入力部分 */}
-                <div className="p-4 bg-white border-top">
+                <div className="p-3 bg-white border-top">
                     <div className="d-flex align-items-center">
                         {/* リセットボタン */}
                         <button
-                            className="btn btn-outline-secondary btn-lg"
-                            style={{ height: '100px', width: '100px', flexShrink: 0 }}
+                            className="btn btn-outline-secondary d-flex justify-content-center align-items-center"
+                            style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
                             disabled={messages.length === 0} // 配列messagesが空の時はリセットボタンを無効化
                             onClick={() => setShowResetModal(true)} // ここでshowResetModalをtrueにすることでResetChat.tsxでdisplayにblockを適用し、モーダルウィンドウを表示
                         >
-                            <RefreshCw size={60} />
+                            <RefreshCw />
                         </button>
 
                         {/* 入力フォーム */}
@@ -106,10 +106,10 @@ const Chat = () => {
                                 type="text"
                                 className="form-control border-0 bg-light"
                                 style={{
-                                    height: '100px',
-                                    fontSize: '2.5rem',
-                                    paddingLeft: '30px',
-                                    paddingRight: '30px',
+                                    height: '50px',
+                                    fontSize: '1.5rem',
+                                    paddingLeft: '1rem',
+                                    paddingRight: '1rem',
                                     width: '100%'
                                 }}
                                 value={input}
@@ -121,12 +121,12 @@ const Chat = () => {
 
                         {/* 送信ボタン */}
                         <button
-                            className="btn btn-success btn-lg"
-                            style={{ height: '100px', width: '100px', flexShrink: 0 }}
+                            className="btn btn-success d-flex justify-content-center align-items-center"
+                            style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
                             onClick={handleSend}
                             disabled={!input.trim()} // 入力フォームが空の時は送信ボタンを無効化
                         >
-                            <Send size={60} />
+                            <Send size={24} />
                         </button>
                     </div>
                 </div>
