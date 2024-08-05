@@ -27,44 +27,43 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
                 </div>
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link to="/" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <Link to="/" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                            style={{
+                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
+                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                            }}>
                             <MessageCircle size={35} />
-                            <div className="ms-3"
-                                style={{
-                                    opacity: isSidebarOpen ? 1 : 0,
-                                    transition: 'opacity 0.3s ease-in-out',
-                                }}>チャット画面</div>
+                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>チャット画面</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/guide" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <Link to="/guide" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                            style={{
+                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
+                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                            }}>
                             <Book size={35} />
-                            <div className="ms-3"
-                                style={{
-                                    opacity: isSidebarOpen ? 1 : 0,
-                                    transition: 'opacity 0.3s ease-in-out',
-                                }}>ツボの押し方</div>
+                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>ツボの押し方</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/caution" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <Link to="/caution" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                            style={{
+                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
+                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                            }}>
                             <AlertCircle size={35} />
-                            <div className="ms-3"
-                                style={{
-                                    opacity: isSidebarOpen ? 1 : 0,
-                                    transition: 'opacity 0.3s ease-in-out',
-                                }}>使用上の注意</div>
+                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>使用上の注意</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/contact" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <Link to="/contact" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                            style={{
+                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
+                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                            }}>
                             <Mail size={35} />
-                            <div className="ms-3"
-                                style={{
-                                    opacity: isSidebarOpen ? 1 : 0,
-                                    transition: 'opacity 0.3s ease-in-out',
-                                }}>お問い合わせ</div>
-
+                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>お問い合わせ</div>}
                         </Link>
                     </li>
                 </ul>
