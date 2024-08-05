@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, AlertCircle, Mail, Menu, Book } from 'lucide-react';
 
 interface Props {
@@ -8,6 +8,22 @@ interface Props {
 }
 
 const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
+    const location = useLocation();
+
+    /* 今のところサイドバーのOpen状態(getButtonClassInOpen)とClose状態(getButtonClassInClose)でスタイルを分ける必要はないけど、
+    今後分けるかもしれないのでこのまま残しておく。必要ないこと確定したら一つにする(Linkタグ内の分岐も消す)。*/
+    const getButtonClassInClose = (path: string) => (
+        location.pathname === path ? 
+        'btn btn-light text-black d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
+        'btn btn-outline-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
+    );
+
+    const getButtonClassInOpen = (path: string) => (
+        location.pathname === path ? 
+        'btn btn-light text-black d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
+        'btn btn-outline-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
+    );
+
     return (
         <div className={`sidebar bg-success text-white ${isSidebarOpen ? 'open' : ''}`}
             style={{
@@ -16,10 +32,7 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
                 transition: 'width 0.3s ease-in-out',
                 overflow: 'hidden'
             }}>
-            <div className="m-3" style={{
-                opacity: isSidebarOpen ? 1 : 1,
-                transition: 'opacity 0.3s ease-in-out',
-            }}>
+            <div className="m-3">
                 <div className="d-flex justify-content-between align-items-center">
                     <button className="btn btn-outline-light mb-5" onClick={toggleSidebar} style={{ border: 'none' }}>
                         <Menu size={35} />
@@ -27,43 +40,39 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
                 </div>
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link to="/" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                        <Link to="/" className={` ${isSidebarOpen ? getButtonClassInOpen('/') : getButtonClassInClose('/')} `}
                             style={{
-                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
-                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                                fontSize: '1.4rem', border: 'none'
                             }}>
                             <MessageCircle size={35} />
-                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>チャット画面</div>}
+                            {isSidebarOpen && <div className="ms-3" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>チャット画面</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/guide" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                        <Link to="/guide" className={` ${isSidebarOpen ? getButtonClassInOpen('/guide') : getButtonClassInClose('/guide')} `}
                             style={{
-                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
-                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                                fontSize: '1.4rem', border: 'none'
                             }}>
                             <Book size={35} />
-                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>ツボの押し方</div>}
+                            {isSidebarOpen && <div className="ms-3" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>ツボの押し方</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/caution" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                        <Link to="/caution" className={` ${isSidebarOpen ? getButtonClassInOpen('/caution') : getButtonClassInClose('/caution')} `}
                             style={{
-                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
-                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                                fontSize: '1.4rem', border: 'none'
                             }}>
                             <AlertCircle size={35} />
-                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>使用上の注意</div>}
+                            {isSidebarOpen && <div className="ms-3" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>使用上の注意</div>}
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/contact" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold"
+                        <Link to="/contact" className={` ${isSidebarOpen ? getButtonClassInOpen('/contact') : getButtonClassInClose('/contact')} `}
                             style={{
-                                fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden',
-                                opacity: isSidebarOpen ? 1 : 1, transition: 'opacity 0.3s ease-in-out'
+                                fontSize: '1.4rem', border: 'none'
                             }}>
                             <Mail size={35} />
-                            {isSidebarOpen && <div className="ms-3" style={{ opacity: isSidebarOpen ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>お問い合わせ</div>}
+                            {isSidebarOpen && <div className="ms-3" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>お問い合わせ</div>}
                         </Link>
                     </li>
                 </ul>
