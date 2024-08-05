@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, AlertCircle, Mail, Menu } from 'lucide-react';
+import { MessageCircle, AlertCircle, Mail, Menu, Book } from 'lucide-react';
 
 interface Props {
     isSidebarOpen: boolean;
@@ -10,36 +10,61 @@ interface Props {
 const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
     return (
         <div className={`sidebar bg-success text-white ${isSidebarOpen ? 'open' : ''}`}
-        style={{
-            
-            width: isSidebarOpen ? '14%' : '0%',
-            transition: 'width 0.3s ease-in-out',
-            overflow: 'hidden'
-        }}>
-            <div className="p-3" style={{
-                opacity: isSidebarOpen ? 1 : 0,
+            style={{
+
+                width: isSidebarOpen ? '14%' : '4.8%',
+                transition: 'width 0.3s ease-in-out',
+                overflow: 'hidden'
+            }}>
+            <div className="m-3" style={{
+                opacity: isSidebarOpen ? 1 : 1,
                 transition: 'opacity 0.3s ease-in-out',
             }}>
-                <div className="d-flex justify-content-between align-items-center mb-5">
-                    <button className="btn btn-outline-light" onClick={toggleSidebar} style={{ border: 'none' }}>
-                        <Menu />
+                <div className="d-flex justify-content-between align-items-center">
+                    <button className="btn btn-outline-light mb-5" onClick={toggleSidebar} style={{ border: 'none' }}>
+                        <Menu size={35} />
                     </button>
-                    <h2 className="mb-0 display-6">メニュー</h2>
                 </div>
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link to="/" className="btn btn-outline-light d-flex justify-content-start align-items-center py-1 fw-bold" style={{ fontSize: '1.5rem', border: 'none' }}>
-                            <MessageCircle className="m-2"/>チャット画面
+                        <Link to="/" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                            <MessageCircle size={35} />
+                            <div className="ms-3"
+                                style={{
+                                    opacity: isSidebarOpen ? 1 : 0,
+                                    transition: 'opacity 0.3s ease-in-out',
+                                }}>チャット画面</div>
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/caution" className="btn btn-outline-light d-flex justify-content-start align-items-center py-1 fw-bold" style={{ fontSize: '1.5rem', border: 'none' }}>
-                            <AlertCircle className="m-2"/>使用上の注意
+                        <Link to="/guide" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                            <Book size={35} />
+                            <div className="ms-3"
+                                style={{
+                                    opacity: isSidebarOpen ? 1 : 0,
+                                    transition: 'opacity 0.3s ease-in-out',
+                                }}>ツボの押し方</div>
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/contact" className="btn btn-outline-light d-flex justify-content-start align-items-center py-1 fw-bold" style={{ fontSize: '1.5rem', border: 'none' }}>
-                            <Mail className="m-2"/>問い合わせ
+                        <Link to="/caution" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                            <AlertCircle size={35} />
+                            <div className="ms-3"
+                                style={{
+                                    opacity: isSidebarOpen ? 1 : 0,
+                                    transition: 'opacity 0.3s ease-in-out',
+                                }}>使用上の注意</div>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/contact" className="btn btn-outline-light d-flex justify-content-start align-items-center py-3 fw-bold" style={{ fontSize: '1.4rem', border: 'none', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                            <Mail size={35} />
+                            <div className="ms-3"
+                                style={{
+                                    opacity: isSidebarOpen ? 1 : 0,
+                                    transition: 'opacity 0.3s ease-in-out',
+                                }}>お問い合わせ</div>
+
                         </Link>
                     </li>
                 </ul>
