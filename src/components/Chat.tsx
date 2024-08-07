@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, RefreshCw } from 'lucide-react';
+import { Send, RefreshCw, MessageCircle } from 'lucide-react';
 import ResetChat from './ResetChat';
 import axios from 'axios';
+import { symptomsSample, shuffleAndSelectSymptoms } from './SymptomSample';
 
 interface Message {
     text: string;
@@ -13,6 +14,16 @@ const Chat = () => {
     const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [showResetModal, setShowResetModal] = useState(false);
+    const [buttonTexts, setButtonTexts] = useState<string[]>([]);
+
+    useEffect(() => {
+        setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
+        console.log('確認');
+    }, []);
+
+    const reshuffleButtonTexts = () => {
+        setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
+    };
 
     // messageが変わったらメッセージの終わりにスクロールさせる処理
     useEffect(() => {
@@ -24,14 +35,13 @@ const Chat = () => {
     この関数内でhandleSendが実行された時の処理。
     inputが空でなければmessagesに新しいメッセージを追加し、バックエンドにinputを送信して返事を受け取る。
     */
-    const handleSend = async () => {
-        if (input.trim()) { // trimで余計な空白を削除
-            setMessages(prev => [...prev, { text: input, isUser: true }]); // isUserをtrueにすることでユーザーのメッセージとして表示
+    const handleSend = async (message: string) => {
+        if (message.trim()) { // trimで余計な空白を削除
+            setMessages(prev => [...prev, { text: message, isUser: true }]); // isUserをtrueにすることでユーザーのメッセージとして表示
             setInput(''); // メッセージを送信したら入力フォームを空にする
 
             try {
-                const response = await axios.post('http://127.0.0.1:8080/process_message', { message: input });  // エンドポイントをprocess_messageに設定
-
+                const response = await axios.post('http://127.0.0.1:8080/process_message', { message });  // エンドポイントをprocess_messageに設定
                 setMessages(prev => [...prev, { text: response.data.response, isUser: false }]);  // バックエンドからの返事のisUserをfalseにすることで返事のメッセージとして表示
             } catch (error) {
                 console.error('Error:', error);
@@ -44,25 +54,48 @@ const Chat = () => {
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            handleSend();
+            handleSend(input);
         }
     };
-
 
     return (
         <> {/* d-flexで flexboxを使い、flex-columnで縦方向に要素を並べる。 */}
             <div className="d-flex flex-column h-100">
                 {/* ここから会話の表示部分 */}
                 <div className="flex-grow-1 overflow-auto p-5 bg-success-subtle">
-                    <div className="container" style={{ maxWidth: '1500px' }}>
-                        <div>
-                            {messages.map((message, index) => (
-                                /* 配列messageをループ処理して1列ずつ要素(メッセージ)を表示するためのコンテナを表示していく。
-                                message.isUserが
-                                trueなら右端(justjify-content-end)に要素を表示して、
-                                falseなら左端(justify-content-start)に要素表示することで、
-                                ユーザーのメッセージと返事のメッセージを区別できるようにする。
-                                */
+                    {/* 配列messagesの要素数(メッセージ数)が0の時と0以外の時でブロックを分ける。他に良い書き方があるか調べる。 */}
+                    {messages.length === 0 ? (
+                        <div className="d-flex container align-items-center justify-content-center flex-column h-100">
+                            <div className="display-6 mb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
+                                症状をお聞かせください
+                            </div>
+                            <div>
+                                {buttonTexts.map((text, index) => (
+                                    <button
+                                        key={index}
+                                        className="btn m-1"
+                                        style={{ border: '1px solid #c0c0c0', backgroundColor: '#ddf1e8', height: '100px', width: '250px' }}
+                                        onClick={() => handleSend(text)}
+                                    >
+                                        <div className="d-flex justify-content-start mb-3 ms-2" style={{ color: 'gray' }}>
+                                            <MessageCircle size={20} />
+                                        </div>
+                                        <div className="d-flex justify-content-start ms-2 fs-6" style={{ color: '#001d0b' }}>
+                                            {text}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        messages.map((message, index) => (
+                            /* 配列messageをループ処理して1列ずつ要素(メッセージ)を表示するためのコンテナを表示していく。
+                            message.isUserが
+                            trueなら右端(justjify-content-end)に要素を表示して、
+                            falseなら左端(justify-content-start)に要素表示することで、
+                            ユーザーのメッセージと返事のメッセージを区別できるようにする。
+                            */
+                            <div className="container" style={{ maxWidth: '1500px' }}>
                                 <div key={index} className={`d-flex ${message.isUser ? 'justify-content-end' : 'justify-content-start'} mb-5`}>
                                     <div
                                         /* メッセージの見た目を定義。
@@ -80,12 +113,13 @@ const Chat = () => {
                                         {message.text}
                                     </div>
                                 </div>
-                            ))}
-                            <div ref={messagesEndRef} /> {/* 送信と同時に自動で最後のメッセージまでスクロールする */}
-                        </div>
-                    </div>
+                            </div>
+                        ))
+                    )}
+                    <div ref={messagesEndRef} /> {/* 送信と同時に自動で最後のメッセージまでスクロールする */}
                 </div>
                 {/* ここまで会話の表示部分 */}
+
 
                 {/* ここから入力部分 */}
                 <div className="p-3 bg-white border-top">
@@ -123,7 +157,7 @@ const Chat = () => {
                         <button
                             className="btn btn-success d-flex justify-content-center align-items-center"
                             style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
-                            onClick={handleSend}
+                            onClick={() => handleSend(input)}
                             disabled={!input.trim()} // 入力フォームが空の時は送信ボタンを無効化
                         >
                             <Send size={24} />
@@ -139,6 +173,7 @@ const Chat = () => {
                 setShowResetModal={setShowResetModal} // 関数setShowResetModalをsetShowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を更新するための関数を渡している)
                 setMessages={setMessages}
                 setInput={setInput}
+                reshuffleButtonTexts={reshuffleButtonTexts}
             />
         </>
     );

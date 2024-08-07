@@ -6,13 +6,15 @@ interface Props {
     setShowResetModal: (value: boolean) => void;
     setMessages: (value: []) => void;
     setInput: (value: string) => void;
+    reshuffleButtonTexts: () => void;
 }
 
-const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput }: Props) => {
+const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, reshuffleButtonTexts }: Props) => {
 
     const handleReset = () => {
         setMessages([]);
         setInput('');
+        reshuffleButtonTexts();
         setShowResetModal(false);
     };
 
