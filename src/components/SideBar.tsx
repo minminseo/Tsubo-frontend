@@ -14,27 +14,28 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
     今後分けるかもしれないのでこのまま残しておく。必要ないこと確定したら一つにする(Linkタグ内の分岐も消す)。*/
     const getButtonClassInClose = (path: string) => (
         location.pathname === path ? 
-        'btn btn-light text-black d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
-        'btn btn-outline-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
+        'btn btn-success text-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
+        'btn btn-outline-success d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
     );
 
     const getButtonClassInOpen = (path: string) => (
         location.pathname === path ? 
-        'btn btn-light text-black d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
-        'btn btn-outline-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
+        'btn btn-success text-light d-flex justify-content-start align-items-center my-1 py-2 fw-bold' : 
+        'btn btn-outline-success d-flex justify-content-start align-items-center my-1 py-2 fw-bold'
     );
 
     return (
-        <div className={`sidebar bg-success text-white ${isSidebarOpen ? 'open' : ''}`}
+        <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}
             style={{
 
                 width: isSidebarOpen ? '14%' : '4.8%',
                 transition: 'width 0.3s ease-in-out',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                backgroundColor: '#cbddb1'
             }}>
             <div className="m-3">
                 <div className="d-flex justify-content-between align-items-center">
-                    <button className="btn btn-outline-light mb-5" onClick={toggleSidebar} style={{ border: 'none' }}>
+                    <button className="btn btn-outline-success mb-5" onClick={toggleSidebar} style={{ border: 'none' }}>
                         <Menu size={35} />
                     </button>
                 </div>
