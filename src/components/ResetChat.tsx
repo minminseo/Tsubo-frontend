@@ -46,7 +46,7 @@ const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, r
 
             >
                 <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content bg-success-subtle" style={{ borderRadius: '40px' }}>
+                    <div className="modal-content" style={{ borderRadius: '40px', backgroundColor: '#f5f8ef', color: '#001d0b' }}>
                         <div className="modal-header border-bottom-0"> {/* モーダルウィンドウのヘッダー */}
                             <h5 className="fs-2 mt-3 ms-3">会話をリセットしますか？</h5>
                         </div>
@@ -57,7 +57,7 @@ const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, r
                             <button
                                 type="button"
                                 className="btn btn-cancel fs-2 mb-3 me-1"
-                                style={{ borderRadius: '20px' }}
+                                style={{ borderRadius: '20px', color: '#001d0b' }}
                                 onClick={() => setShowResetModal(false)}> {/* キャンセルボタンを押すとshowResetModalがfalseになりモーダルウィンドウが閉じる */}
                                 キャンセル
                             </button> {/* キャンセルボタンを押すとshowResetModalがfalseになりモーダルウィンドウが閉じる */}
