@@ -28,12 +28,12 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
         <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}
             style={{
 
-                width: isSidebarOpen ? '14%' : '4.8%',
+                width: isSidebarOpen ? '250px': '75px',
                 transition: 'width 0.3s ease-in-out',
                 overflow: 'hidden',
                 backgroundColor: '#cbddb1'
             }}>
-            <div className="m-3">
+            <div className="m-2">
                 <div className="d-flex justify-content-between align-items-center">
                     <button className="btn btn-outline-success mb-5" onClick={toggleSidebar} style={{ border: 'none' }}>
                         <Menu size={35} />
