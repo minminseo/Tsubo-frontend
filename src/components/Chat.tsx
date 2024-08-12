@@ -137,7 +137,7 @@ const Chat = () => {
                             <div className="d-flex  align-items-center container">
                                 {/* リセットボタン */}
                                 <button
-                                    className="btn btn-outline-secondary d-flex justify-content-start align-items-center border-0 animated-element2"
+                                    className={`btn d-flex justify-content-start align-items-center border-0 animated-element2 ${messages.length === 0 ? 'bg-secondary text-light' : 'bg-success text-light'}`}
                                     style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
                                     disabled={messages.length === 0} // 配列messagesが空の時はリセットボタンを無効化
                                     onClick={() => setShowResetModal(true)} // ここでshowResetModalをtrueにすることでResetChat.tsxでdisplayにblockを適用し、モーダルウィンドウを表示
@@ -169,8 +169,8 @@ const Chat = () => {
 
                                 {/* 送信ボタン */}
                                 <button
-                                    className="btn d-flex justify-content-end align-items-center border-0 animated-element2"
-                                    style={{ height: '3rem', width: '3rem', flexShrink: 0, backgroundColor: '#cbddb1', color: '#001d0b' }}
+                                    className={`btn d-flex justify-content-end align-items-center border-0 animated-element2 ${input.trim() ? 'bg-success text-light' : 'bg-secondary text-light'}`}
+                                    style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
                                     onClick={() => handleSend(input)}
                                     disabled={!input.trim()} // 入力フォームが空の時は送信ボタンを無効化
                                 >
