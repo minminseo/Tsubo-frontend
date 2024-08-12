@@ -16,6 +16,8 @@ const Chat = () => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [showResetModal, setShowResetModal] = useState(false);
     const [buttonTexts, setButtonTexts] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false); // ツボ情報のレスポンスまでの間にローディングアイコンを表示するための状態変数
+
 
     useEffect(() => {
         setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
@@ -40,6 +42,7 @@ const Chat = () => {
         if (message.trim()) { // trimで余計な空白を削除
             setMessages(prev => [...prev, { text: message, isUser: true }]); // isUserをtrueにすることでユーザーのメッセージとして表示
             setInput(''); // メッセージを送信したら入力フォームを空にする
+            setIsLoading(true); // ローディングアイコンを表示
 
             try {
                 const response = await axios.post('http://127.0.0.1:8080/process_message', { message });  // エンドポイントをprocess_messageに設定
@@ -47,6 +50,8 @@ const Chat = () => {
             } catch (error) {
                 console.error('Error:', error);
                 setMessages(prev => [...prev, { text: 'エラー', isUser: false }]);
+            } finally {
+                setIsLoading(false); 
             }
         }
     };
@@ -62,7 +67,7 @@ const Chat = () => {
     return (
         <> {/* d-flexで flexboxを使い、flex-columnで縦方向に要素を並べる。 */}
             <div className="d-flex flex-column h-100">
-                
+
                 {/* ここから会話の表示部分 */}
                 <div className="flex-grow-1 overflow-auto p-5" style={{ backgroundColor: '#f5f8ef' }}>
                     {/* 配列messagesの要素数(メッセージ数)が0の時と0以外の時でブロックを分ける。他に良い書き方があるか調べる。 */}
@@ -92,33 +97,43 @@ const Chat = () => {
                             </div>
                         </div>
                     ) : (
-                        messages.map((message, index) => (
-                            /* 配列messageをループ処理して1列ずつ要素(メッセージ)を表示するためのコンテナを表示していく。
-                            message.isUserが
-                            trueなら右端(justjify-content-end)に要素を表示して、
-                            falseなら左端(justify-content-start)に要素表示することで、
-                            ユーザーのメッセージと返事のメッセージを区別できるようにする。
-                            */
-                            <div className="container" style={{ maxWidth: '1500px' }}>
-                                <div key={index} className={`d-flex ${message.isUser ? 'justify-content-end' : 'justify-content-start'} mb-5`}>
-                                    <div
-                                        /* メッセージの見た目を定義。
-                                        ユーザー→bg-success text-white
-                                        返事→bg-white
-                                        */
-                                        className={`p-3 ${message.isUser ? 'custom-success text-black' : 'bg-white'}`}
-                                        style={{
-                                            maxWidth: '80%',
-                                            fontSize: '1.4rem',
-                                            borderRadius: '15px',
-                                            wordBreak: 'break-word'
-                                        }}
-                                    >
-                                        {message.text}
+                        <>
+                            {messages.map((message, index) => (
+                                /* 配列messageをループ処理して1列ずつ要素(メッセージ)を表示するためのコンテナを表示していく。
+                                message.isUserが
+                                trueなら右端(justjify-content-end)に要素を表示して、
+                                falseなら左端(justify-content-start)に要素表示することで、
+                                ユーザーのメッセージと返事のメッセージを区別できるようにする。
+                                */
+                                <div className="container" style={{ maxWidth: '1500px' }}>
+                                    <div key={index} className={`d-flex ${message.isUser ? 'justify-content-end' : 'justify-content-start'} mb-5`}>
+                                        <div
+                                            /* メッセージの見た目を定義。
+                                            ユーザー→bg-success text-white
+                                            返事→bg-white
+                                            */
+                                            className={`p-3 ${message.isUser ? 'custom-success text-black' : 'bg-white'}`}
+                                            style={{
+                                                maxWidth: '80%',
+                                                fontSize: '1.4rem',
+                                                borderRadius: '15px',
+                                                wordBreak: 'break-word'
+                                            }}
+                                        >
+                                            {message.text}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
+                            ))}
+                            {/* ローディングアイコン */}
+                            {isLoading && (
+                                <div className="d-flex justify-content-center">
+                                    <div className="spinner-border text-success" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     )}
                     <div ref={messagesEndRef} /> {/* 送信と同時に自動で最後のメッセージまでスクロールする */}
                 </div>
@@ -172,7 +187,7 @@ const Chat = () => {
                                     className={`btn d-flex justify-content-end align-items-center border-0 animated-element2 ${input.trim() ? 'bg-success text-light' : 'bg-secondary text-light'}`}
                                     style={{ height: '3rem', width: '3rem', flexShrink: 0 }}
                                     onClick={() => handleSend(input)}
-                                    disabled={!input.trim()} // 入力フォームが空の時は送信ボタンを無効化
+                                    disabled={!input.trim() || isLoading} // 入力フォームが空の時は送信ボタンを無効化 or ローディング中は無効化
                                 >
                                     <Send size={24} />
                                 </button>
