@@ -82,3 +82,10 @@
     display: inline-block;
     animation: expandFromCenter3 1s ease-out forwards;
 }
+
+.btn.bg-success:hover {
+     /* ここをホバー時に明るくしたい色に変更 */
+    filter: brightness(1.2); /* 少し明るくするためにbrightnessフィルターを適用 */
+}
+
+
