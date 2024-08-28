@@ -10,6 +10,7 @@ import i18n from './i18n';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [language, setLanguage] = useState(i18n.language);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -17,6 +18,7 @@ const App = () => {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setLanguage(lng);
   };
 
   return (
@@ -31,7 +33,7 @@ const App = () => {
             <Route path="/" element={<Chat />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/caution" element={<Caution />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<Contact lng={language} />} />
             <Route path="/setting" element={<Setting changeLanguage={changeLanguage} />} />
           </Routes>
         </div>
