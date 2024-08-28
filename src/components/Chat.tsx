@@ -77,7 +77,7 @@ const Chat = () => {
                 setMessages(prev => [...prev, { text: response.data.response, isUser: false }]);  // バックエンドからの返事のisUserをfalseにすることで返事のメッセージとして表示
             } catch (error) {
                 console.error('Error:', error);
-                setMessages(prev => [...prev, { text: 'エラー', isUser: false }]);
+                setMessages(prev => [...prev, { text: t('error_message'), isUser: false }]);
             } finally {
                 setIsLoading(false); 
             }
