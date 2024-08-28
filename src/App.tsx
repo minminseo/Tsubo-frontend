@@ -5,13 +5,18 @@ import Chat from './components/Chat';
 import Guide from './components/Guide';
 import Caution from './components/Caution';
 import Contact from './components/Contact';
-
+import Setting from './components/Setting';
+import i18n from './i18n';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -27,6 +32,7 @@ const App = () => {
             <Route path="/guide" element={<Guide />} />
             <Route path="/caution" element={<Caution />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/setting" element={<Setting changeLanguage={changeLanguage} />} />
           </Routes>
         </div>
       </div>

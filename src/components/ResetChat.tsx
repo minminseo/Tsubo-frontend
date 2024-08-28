@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import '../styles.css';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     showResetModal: boolean;
@@ -11,6 +12,7 @@ interface Props {
 
 const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, reshuffleButtonTexts }: Props) => {
 
+    const { t } = useTranslation();
     const handleReset = () => {
         setMessages([]);
         setInput('');
@@ -48,10 +50,10 @@ const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, r
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content" style={{ borderRadius: '40px', backgroundColor: '#f5f8ef', color: '#001d0b' }}>
                         <div className="modal-header border-bottom-0"> {/* モーダルウィンドウのヘッダー */}
-                            <h5 className="fs-2 mt-3 ms-3">会話をリセットしますか？</h5>
+                            <h5 className="fs-2 mt-3 ms-3">{t('reset_chat')}</h5>
                         </div>
                         <div className="modal-body"> {/* モーダルウィンドウのボディ */}
-                            <p className="fs-4 ms-3">これまでの会話をリセットします。</p>
+                            <p className="fs-4 ms-3">{t('reset_chat_confirm')}</p>
                         </div>
                         <div className="modal-footer border-top-0 d-flex justify-content-end"> {/* モーダルウィンドウのフッター */}
                             <button
@@ -59,14 +61,14 @@ const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, r
                                 className="btn btn-cancel fs-2 mb-3 me-1"
                                 style={{ borderRadius: '20px', color: '#001d0b' }}
                                 onClick={() => setShowResetModal(false)}> {/* キャンセルボタンを押すとshowResetModalがfalseになりモーダルウィンドウが閉じる */}
-                                キャンセル
+                                {t('cancel')}
                             </button> {/* キャンセルボタンを押すとshowResetModalがfalseになりモーダルウィンドウが閉じる */}
                             <button
                                 type="button"
                                 className="btn btn-danger fs-2 mb-3 ms-1 me-3"
                                 style={{ borderRadius: '20px' }}
                                 onClick={handleReset}> {/* リセットボタンを押すとChat.tsxのhandleResetが実行されて配列messages(会話の履歴)とinput(入力フォーム)の中身が空になる */}
-                                リセット
+                                {t('reset')}
                             </button> {/* リセットボタンを押したらhandleResetが実行されて配列messages(会話の履歴)とinput(入力フォーム)の中身が空になる */}
                         </div>
                     </div>

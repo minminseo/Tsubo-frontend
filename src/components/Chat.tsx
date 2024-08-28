@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Send, RefreshCw, MessageCircle } from 'lucide-react';
 import ResetChat from './ResetChat';
 import axios from 'axios';
-import { symptomsSample, shuffleAndSelectSymptoms } from './SymptomSample';
 import '../styles.css';
+import { useTranslation } from 'react-i18next';
 
 interface Message {
     text: string;
@@ -17,12 +17,40 @@ const Chat = () => {
     const [showResetModal, setShowResetModal] = useState(false);
     const [buttonTexts, setButtonTexts] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false); // ツボ情報のレスポンスまでの間にローディングアイコンを表示するための状態変数
+    const { t } = useTranslation();
 
+    const symptomsSample = useMemo(() => [
+        t("headache"),
+        t("stomach_ache"),
+        t("muscle_pain"),
+        t("sleepy"),
+        t("eye_strain"),
+        t("shoulder_stiffness"),
+        t("back_pain"),
+        t("stomach_pain"),
+        t("cold_symptoms"),
+        t("stress"),
+        t("constipation"),
+        t("mouth_ulcer"),
+        t("knee_pain"),
+        t("hangover"),
+        t("cold_hands"),
+        t("swollen_feet"),
+        t("tinnitus"),
+        t("menstrual_pain"),
+        t("runny_nose"),
+        t("itchy_skin")
+    ], [t]);
+
+    const shuffleAndSelectSymptoms = (symptomsSample: string[], count: number): string[] => {
+        const shuffled = [...symptomsSample].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    };
 
     useEffect(() => {
         setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
         console.log('確認');
-    }, []);
+    }, [symptomsSample]);
 
     const reshuffleButtonTexts = () => {
         setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
@@ -76,7 +104,7 @@ const Chat = () => {
                             className="d-flex container align-items-center justify-content-center flex-column h-100 animated-element3"
                             style={{ color: '#001d0b' }}>
                             <div className="display-6 mb-5" style={{ fontFamily: "'Noto Serif JP', serif" }}>
-                                症状をお聞かせください
+                            {t('tell_me_symptom')}
                             </div>
                             <div>
                                 {buttonTexts.map((text, index) => (
@@ -178,7 +206,7 @@ const Chat = () => {
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
                                         onKeyPress={handleKeyPress} // ※onKeyPressを使わずにエンターキー送信できるように要修正
-                                        placeholder="身体の症状を送信する"
+                                        placeholder={t('send_symptom')}
                                     />
                                 </div>
 
