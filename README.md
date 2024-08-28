@@ -1,4 +1,15 @@
 # 環境構築手順
+docker
+### その1
+`docker-compose build`
+
+### その2
+`docker-compose up`
+
+### その3
+`http://localhost:3000`にアクセス
+
+ローカル環境
 ### その1
 `git clone https://github.com/minminseo/tsubo-frontend.git`
 
