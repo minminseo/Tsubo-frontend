@@ -11,14 +11,15 @@ interface Message {
 }
 
 const Chat = () => {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [input, setInput] = useState('');
-    const messagesEndRef = useRef<HTMLDivElement>(null);
-    const [showResetModal, setShowResetModal] = useState(false);
-    const [buttonTexts, setButtonTexts] = useState<string[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]); // メッセージの内容と、その時のmessageの中身がユーザーかどうかを判別するための状態変数
+    const [input, setInput] = useState(''); // ユーザーが入力したテキストを管理するための状態変数
+    const messagesEndRef = useRef<HTMLDivElement>(null); // チャットが更新されたときに最後のメッセージまでスクロールするためのref
+    const [showResetModal, setShowResetModal] = useState(false); // リセットボタンをクリックした時に表示されるモーダルウィンドウの表示状態を管理するための状態変数
+    const [buttonTexts, setButtonTexts] = useState<string[]>([]); // サンプルの症状を表示するためのテキストを管理するための状態変数
     const [isLoading, setIsLoading] = useState(false); // ツボ情報のレスポンスまでの間にローディングアイコンを表示するための状態変数
-    const { t } = useTranslation();
+    const { t } = useTranslation(); // i18nのt関数をtとして使用
 
+    // チャット画面初期状態のランダムに表示される症状サンプルのあつまり
     const symptomsSample = useMemo(() => [
         t("headache"),
         t("stomach_ache"),
@@ -42,16 +43,19 @@ const Chat = () => {
         t("itchy_skin")
     ], [t]);
 
+    // 配列symptomsSampleからランダムにcount個(4個)の症状を選んで返す関数
     const shuffleAndSelectSymptoms = (symptomsSample: string[], count: number): string[] => {
-        const shuffled = [...symptomsSample].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, count);
+        const shuffled = [...symptomsSample].sort(() => 0.5 - Math.random()); // [...symptomsSample]はsymptomsSampleのコピーを作成し、.sort(() => 0.5 - Math.random());で配列をランダムにシャッフル
+        return shuffled.slice(0, count); // slice(0, count)で先頭からcount個(4個)の要素を取得
     };
 
+    // 初回レンダリング時に症状サンプルをランダムに表示(shuffleAndSelectSymptoms関数を実行)
     useEffect(() => {
         setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
         console.log('確認');
     }, [symptomsSample]);
 
+    // リセットボタンクリック時に症状サンプルを再度ランダムに表示(shuffleAndSelectSymptoms関数を実行)
     const reshuffleButtonTexts = () => {
         setButtonTexts(shuffleAndSelectSymptoms(symptomsSample, 4));
     };
@@ -107,12 +111,13 @@ const Chat = () => {
                             {t('tell_me_symptom')}
                             </div>
                             <div>
+                                {/* 症状サンプルを表示するボタン。ボタンをクリックするとhandleSend関数が実行されて、そのボタンのテキストがhandleSend関数に渡される。 */}
                                 {buttonTexts.map((text, index) => (
                                     <button
                                         key={index}
                                         className="btn m-1"
                                         style={{ border: '1px solid #c0c0c0', backgroundColor: '#f8fbf2', height: '100px', width: '250px' }}
-                                        onClick={() => handleSend(text)}
+                                        onClick={() => handleSend(text)} // ここでhandleSend関数を実行して、ボタンのテキストを引数として渡す
                                     >
                                         <div className="d-flex justify-content-start mb-3 ms-2" style={{ color: 'gray' }}>
                                             <MessageCircle size={20} />
@@ -230,9 +235,9 @@ const Chat = () => {
             <ResetChat // showResetModalがtrueの時に表示されるコンポーネント(モーダルウィンドウ)
                 showResetModal={showResetModal} // showResetModalの値をshowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を制御するための状態変数を渡している)
                 setShowResetModal={setShowResetModal} // 関数setShowResetModalをsetShowResetModalに渡してPropsとしてResetChat.tsxに渡す(モーダルウィンドウの表示状態を更新するための関数を渡している)
-                setMessages={setMessages}
-                setInput={setInput}
-                reshuffleButtonTexts={reshuffleButtonTexts}
+                setMessages={setMessages} // 関数setMessagesをsetMessagesに渡してPropsとしてResetChat.tsxに渡す(メッセージの内容を更新するための関数を渡している)
+                setInput={setInput} // 関数setInputをsetInputに渡してPropsとしてResetChat.tsxに渡す(入力フォームの内容を更新するための関数を渡している)
+                reshuffleButtonTexts={reshuffleButtonTexts} // 関数reshuffleButtonTextsをreshuffleButtonTextsに渡してPropsとしてResetChat.tsxに渡す(症状サンプルを再度ランダムに表示するための関数を渡している)
             />
         </>
     );
