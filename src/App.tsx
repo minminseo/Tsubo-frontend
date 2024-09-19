@@ -10,14 +10,21 @@ import i18n from './i18n';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [language, setLanguage] = useState(i18n.language);
+  const [language, setLanguage] = useState(i18n.language); // 言語をの状態を管理する状態変数
 
+  // サイドバーを開閉する関数
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // 言語を変更する関数
+  /*
+  Settingコンポーネントで配置された言語選択ボタンをクリックすると、
+  changeLanguage関数(引数に”ja”か”ko”が渡される)が実行され、
+  i18n.changeLanguage関数が呼び出され、引数に基づいて言語が変更される。
+  */
   const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+    i18n.changeLanguage(lng); 
     setLanguage(lng);
   };
 

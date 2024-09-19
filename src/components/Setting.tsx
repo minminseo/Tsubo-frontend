@@ -3,6 +3,7 @@
 interface Props {
     changeLanguage: (lng: string) => void; // プロップスとしてchangeLanguageを追加
 }
+// Settingコンポーネントでは、今のところ言語設定を変更するためだけの用途。
 const Setting = ({ changeLanguage }: Props) => {
 
     return (
@@ -12,14 +13,14 @@ const Setting = ({ changeLanguage }: Props) => {
             </div>
             <div>
                 <button 
-                    onClick={() => changeLanguage('ja')} 
+                    onClick={() => changeLanguage('ja')} // ボタンをクリックすると、changeLanguage関数が実行され、引数に'ja'が渡される
                     className="btn btn-outline-success me-2"
                     style={{ border: '1px solid #c0c0c0', height: '100px', width: '250px'}}
                     >
                     日本語
                 </button>
                 <button 
-                    onClick={() => changeLanguage('ko')} 
+                    onClick={() => changeLanguage('ko')} // ボタンをクリックすると、changeLanguage関数が実行され、引数に'ko'が渡される
                     className="btn btn-outline-success"
                     style={{ border: '1px solid #c0c0c0', height: '100px', width: '250px'}}
                     >

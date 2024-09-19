@@ -3,6 +3,11 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
+    /* 
+    ここで設定したキー達は、各コンポーネント内で使われるt関数の引数として扱われる。
+    例えば、"チャット画面"と"채팅 화면"というように言語を切り替えたい部分があった場合、
+    その部分で{t('chat_screen')}という風に記述して呼び出す。
+    */
     ja: {
         translation: {
             "chat_screen": "チャット画面",
@@ -77,15 +82,20 @@ const resources = {
     }
 };
 
+/* 
+// ここ(i18n)で初期化し、初期化された翻訳のリソースはuseTranslationフックと連携する。
+それにより、各コンポーネント内で翻訳を使えるようになる。
+*/
+
 i18n
-    .use(LanguageDetector)
-    .use(initReactI18next)
+    .use(LanguageDetector) // ユーザーのブラウザ環境から言語を自動検出。ユーザーが日本語環境でブラウザを開いた場合、jaをデフォルト言語として設定。
+    .use(initReactI18next) // これでi18nをReactで使えるようにする。
     .init({
-        resources,
+        resources, // ここで翻訳のリソース（jaとko）を定義。
         fallbackLng: 'ja', // デフォルトの言語
         interpolation: {
-            escapeValue: false
+            escapeValue: false // falseにすることで、HTMLタグ、特殊文字をエスケープしないようにし、そのまま表示する。React使うならFalseが一般的。
         }
-    });
+    }); 
 
 export default i18n;

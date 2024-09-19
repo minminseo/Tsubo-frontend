@@ -1,23 +1,25 @@
 import { useEffect } from 'react';
 import '../styles.css';
-import { useTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next'; // 翻訳機能を使うためのライブラリ
 interface Props {
-    showResetModal: boolean;
-    setShowResetModal: (value: boolean) => void;
-    setMessages: (value: []) => void;
-    setInput: (value: string) => void;
-    reshuffleButtonTexts: () => void;
+    showResetModal: boolean; // モーダルの表示状態を管理するブール値
+    setShowResetModal: (value: boolean) => void; // モーダルの表示/非表示をBooleanで管理する関数
+    setMessages: (value: []) => void; // メッセージ履歴をリセットするための関数
+    setInput: (value: string) => void; // 入力フォームの内容をリセットするための関数
+    reshuffleButtonTexts: () => void; // ボタンのテキストをもう一度シャッフルする関数（chat.tsxの関数reshuffleButtonTextsを実行）
 }
 
 const ResetChat = ({ showResetModal, setShowResetModal, setMessages, setInput, reshuffleButtonTexts }: Props) => {
 
+    // useTranslationフックでt関数を取得
+    // このt関数を使って、翻訳したい文字列のキーをt関数の引数に渡すことで、翻訳された文字列を取得できる
     const { t } = useTranslation();
+
     const handleReset = () => {
-        setMessages([]);
-        setInput('');
-        reshuffleButtonTexts();
-        setShowResetModal(false);
+        setMessages([]); // メッセージ履歴を空にする
+        setInput(''); // 入力フォームの内容を空にする
+        reshuffleButtonTexts(); // ボタンのテキストをもう一度シャッフルする
+        setShowResetModal(false); // モーダルウィンドウを閉じる
     };
 
     useEffect(() => {
